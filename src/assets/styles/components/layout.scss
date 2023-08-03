@@ -1,0 +1,34 @@
+section {
+  height: 100%;
+  overflow: auto;
+  .ant-layout-header {
+    width: 100%;
+    height: 60px;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    padding: 0 $padding-pc;
+    position: fixed;
+    background: $white;
+    border-bottom: 1px solid $gray-3;
+    button {
+      margin-left: $margin-m;
+    }
+
+    @media (max-width: $tablet) {
+      padding: 0 $padding-tablet;
+    }
+  }
+  main {
+    width: 100%;
+    padding: 0 $padding-pc $padding-xxl $padding-pc;
+    min-height: auto !important;
+    background: $white;
+    padding-top: 80px;
+
+    @media (max-width: $tablet) {
+      padding: 0 $padding-tablet;
+      padding-top: 80px;
+    }
+  }
+}
