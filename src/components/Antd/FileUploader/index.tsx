@@ -2,6 +2,7 @@ import React from 'react';
 
 // helpers
 import { RcFile } from 'antd/es/upload';
+import { styled } from 'styled-components';
 
 // components
 import Button from '../Button';
@@ -19,12 +20,19 @@ const FileUploader = ({ action, btnText, className = '' }: FileUploaderProps) =>
     action(file);
   };
   return (
-    <Upload accept='.xls, .xlsx' beforeUpload={beforeUpload} className={className}>
+    <StyledUpload accept='.xls, .xlsx' beforeUpload={beforeUpload} className={className}>
       <Button>
         <UploadOutlined rev='' /> {btnText}
       </Button>
-    </Upload>
+    </StyledUpload>
   );
 };
+
+const StyledUpload = styled(Upload)`
+  .ant-upload-list-item,
+  .ant-upload-list-item-error {
+    display: none !important;
+  }
+`;
 
 export default FileUploader;

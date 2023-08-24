@@ -44,8 +44,6 @@ function Select<Option = unknown>({
 }: SelectProps<Option>) {
   const [open, setOpen] = useState(false);
 
-  console.log(value);
-
   const renderOptions = (items: SelectOption<Option>[]) => {
     return items.reduce<ReactNode[]>((acc, item) => {
       if (!item.hidden) {

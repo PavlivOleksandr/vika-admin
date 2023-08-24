@@ -1,13 +1,28 @@
-import { SizeEnum } from '../constants/mattresses';
+import { KidsSizeEnum, SizeEnum } from '../constants/mattresses';
+
+export enum SofaCategoryEnum {
+  Bed = 'Ліжко',
+  Chair = 'Крісло',
+  Corner = 'Кутовий диван',
+  ForKids = 'Дитячий',
+  Straight = 'Прямий диван',
+}
+
+export type SofaVariantType = '7' | 'Г' | 'Універсальний';
+
+export interface SofaConfigurationModel {
+  collapse: string;
+  pricing: [{ fabric?: string | null; price?: number | null }];
+}
 
 export enum MattressTypeEnum {
-  ForKids = 'for kids',
+  ForKids = 'for children',
   ForAdults = 'for adults',
 }
 
 export interface MattressConfigurationModel {
   height: number;
-  pricing: [{ size: SizeEnum; price: number }];
+  pricing: { size: SizeEnum | KidsSizeEnum; price: number }[];
 }
 
 export interface SimpleProductModel {
@@ -18,7 +33,7 @@ export interface SimpleProductModel {
 }
 
 export interface BaseProductModel extends SimpleProductModel {
-  images: string[];
+  images: string[] | [];
   rating: number;
   createdAt: string;
   updatedAt: string;
@@ -33,33 +48,10 @@ export interface MattressModel extends BaseProductModel {
 }
 
 export interface SofaModel extends BaseProductModel {
-  discount: number;
-  category: string;
+  isCorner: boolean;
+  category: SofaCategoryEnum;
+  variant: SofaVariantType;
+  isCollapsible: boolean;
+  isLaundryStore: boolean;
+  configurations: SofaConfigurationModel[];
 }
-
-const configurations = {
-  dimensions: [
-    {
-      height: 12,
-      pricing: [
-        { width: '80*200', price: 1600 },
-        { width: '90*200', price: 1800 },
-        { width: '120*200', price: 1800 },
-        { width: '140*200', price: 1500 },
-        { width: '160*200', price: 1900 },
-        { width: '180*200', price: 2800 },
-      ],
-    },
-    {
-      height: 14,
-      pricing: [
-        { width: '80*200', price: 1700 },
-        { width: '90*200', price: 1800 },
-        { width: '120*200', price: 1900 },
-        { width: '140*200', price: 2100 },
-        { width: '160*200', price: 2400 },
-        { width: '180*200', price: 27600 },
-      ],
-    },
-  ],
-};

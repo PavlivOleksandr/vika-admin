@@ -1,18 +1,22 @@
 import React, { useMemo } from 'react';
 
 // helpres
+import { RoutesEnum } from '../../router/routes';
+import { useNavigate } from 'react-router-dom';
 import { mattressesAPI } from '../../api/mattresses/mattressesAPI';
 import { MattressTypeEnum } from '../../interfaces/products';
 
 // components
-import CreateMattressForm, { FormValuesModel } from '../../components/Forms/TemplateForms/CreateMattressForm';
+import CreateMattressForm, { FormValuesModel } from '../../components/Forms/TemplateForms/Mattress/CreateMattressForm';
 
 const NewMattressPage = () => {
+  const navigate = useNavigate();
+
   const initialValues = useMemo<FormValuesModel>(
     () => ({
       name: '',
       article: '',
-      rating: 0,
+      rating: null,
       type: MattressTypeEnum.ForAdults,
       images: null,
       thumbnail: null,
@@ -26,6 +30,12 @@ const NewMattressPage = () => {
 
   const onSubmit = async (values: FormValuesModel) => {
     await mattressesAPI.create(values);
+    navigate(RoutesEnum.Mattresses, {
+      state: {
+        title: 'Новий матрац успішно додано',
+        type: 'success',
+      },
+    });
   };
 
   return <CreateMattressForm initialValues={initialValues} onSubmit={onSubmit} />;

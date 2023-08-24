@@ -13,6 +13,7 @@ interface ImageUploaderProps {
   value?: any;
   btnText?: string | ReactNode;
   multiple?: boolean;
+  disabled?: boolean;
   className?: string;
   customButton?: ReactNode;
   shouldUseFormikContext?: boolean;
@@ -24,6 +25,7 @@ const ImageUploader = ({
   name,
   btnText,
   multiple = true,
+  disabled,
   className = '',
   customButton,
   shouldUseFormikContext,
@@ -34,7 +36,6 @@ const ImageUploader = ({
   const beforeUpload = (file: RcFile) => {
     if (formikContext) {
       formikContext.setFieldValue(name, file);
-      console.log(file);
     }
     uploadAction && uploadAction(file);
   };
@@ -46,6 +47,7 @@ const ImageUploader = ({
       accept='image/jpeg,image/png,image/svg'
       listType='picture-card'
       multiple={multiple}
+      disabled={disabled}
       className={className}
       isCustom={!!customButton}
       beforeUpload={beforeUpload}
@@ -73,6 +75,9 @@ const StyledUplod = styled(Upload)<{ isCustom: boolean }>`
           background: transparent;
         }
       }
+    }
+    .ant-upload-list-item-container {
+      display: none !important;
     }
   }
 `;

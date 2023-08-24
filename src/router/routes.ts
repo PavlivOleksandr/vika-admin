@@ -13,11 +13,11 @@ import NewMattressPage from '../pages/NewMattressPage';
 
 export enum RoutesEnum {
   Main = '/',
-  Sofas = 'sofas',
+  Sofas = '/sofas',
   Shops = 'shops',
   NewShop = 'shops/new',
   NewSofa = 'sofas/new',
-  Mattresses = 'mattresses',
+  Mattresses = '/mattresses',
   NewMattress = 'mattresses/new',
 }
 

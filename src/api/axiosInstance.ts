@@ -4,14 +4,6 @@ import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 import { REQ_TIMEOUT } from '../constants/global';
 
-// interface ErrorResponseModel {
-//   message: string;
-// }
-
-// export interface ApiErrorResponseModel extends AxiosError<ErrorResponseModel & { error?: ErrorResponseModel }> {
-//   config: ConfigModel;
-// }
-
 type ConfigModel = AxiosRequestConfig;
 
 const instance = axios.create({
@@ -23,29 +15,10 @@ instance.interceptors.request.use(function (config: any) {
     throw new axios.Cancel('Operation canceled by the user.');
   }
 
-  // const token = LocalStorageHelpers.getAccessToken();
-
-  // if (token && config.headers) {
-  //   config.headers.Authorization = `Bearer ${token}`;
-  // }
-
   return config;
 });
 
-instance.interceptors.response.use(
-  response => response,
-  // async error => {
-  //   const { status } = error.response || {};
-
-  //   if (status === STATUS_NOT_AUTHORIZED) {
-  //     LocalStorageHelpers.removeAccessToken();
-
-  //     //TODO fix
-  //     location.reload();
-  //   }
-  //   throw error;
-  // },
-);
+instance.interceptors.response.use(response => response);
 
 interface APIModel {
   get<T = any, R = AxiosResponse<T>>(endpointKey: string, config?: ConfigModel | null): Promise<R>;
