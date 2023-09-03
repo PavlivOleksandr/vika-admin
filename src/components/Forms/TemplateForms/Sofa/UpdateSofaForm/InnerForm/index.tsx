@@ -72,7 +72,7 @@ const InnerForm = ({ isEditable, setIsEditable }: IProps) => {
             placeholder={'Ніша для білизни'}
             component={Checkbox}
           />
-          <FormField label='Варіант' name='type' component={SofaVariantRadiogroup} />
+          <FormField label='Варіант' name='variant' component={SofaVariantRadiogroup} />
           <CategorySelect disabled={!isEditable} />
           <FormField
             label='Опис'

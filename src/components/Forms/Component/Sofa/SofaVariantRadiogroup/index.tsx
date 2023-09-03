@@ -7,13 +7,13 @@ import { RadioChangeEvent } from 'antd';
 // components
 import RadioGroup from '../../../../Antd/RadioGroup';
 
-interface GenderRadioGroupProps {
+interface IProps {
   value: string;
   disabled?: boolean;
   onChange: (value: RadioChangeEvent) => void;
 }
 
-const SofaVariantRadiogroup = ({ value, disabled, onChange }: GenderRadioGroupProps) => {
+const SofaVariantRadiogroup = ({ value, disabled, onChange }: IProps) => {
   const options = [
     { value: '7', title: '7' },
     { value: 'Г', title: 'Г' },
