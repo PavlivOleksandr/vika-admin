@@ -1,6 +1,7 @@
 import * as Yup from 'yup';
-import { MattressTypeEnum, SofaConfigurationModel } from '../interfaces/products';
 import { SizeEnum } from '../constants/mattresses';
+import { MattressTypeEnum } from '../constants/mattresses';
+import { SofaConfigurationModel } from '../interfaces/sofa';
 
 const mattressConfigurationSchema = Yup.object()
   .shape({

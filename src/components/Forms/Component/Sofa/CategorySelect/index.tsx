@@ -1,7 +1,7 @@
 import React from 'react';
 
 // helpers
-import { SofaCategoryEnum } from '../../../../../interfaces/products';
+import { SofaCategoryEnum } from '../../../../../constants/sofa';
 
 // components
 import Select from '../../../../Antd/Select';

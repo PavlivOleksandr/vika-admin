@@ -4,8 +4,8 @@ import React, { useState } from 'react';
 import { theme } from '../../../../../assets/styles/theme/theme';
 import { styled } from 'styled-components';
 import { useFormikContext } from 'formik';
-import { KidsSizeEnum, SizeEnum } from '../../../../../constants/mattresses';
-import { MattressConfigurationModel, MattressTypeEnum } from '../../../../../interfaces/products';
+import { MattressConfigurationModel } from '../../../../../interfaces/mattress';
+import { KidsSizeEnum, MattressTypeEnum, SizeEnum } from '../../../../../constants/mattresses';
 
 // components
 import Box from '../../../../Additional/Box';

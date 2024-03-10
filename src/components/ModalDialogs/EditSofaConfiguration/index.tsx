@@ -7,7 +7,7 @@ import { sofasAPI } from '../../../api/sofas/sofasAPI';
 import { FormValuesModel } from '../../Forms/TemplateForms/Sofa/CreateSofaForm';
 import { useFormikContext } from 'formik';
 import { FabricCategoriesEnum } from '../../../constants/sofa';
-import { SofaConfigurationModel } from '../../../interfaces/products';
+import { SofaConfigurationModel } from '../../../interfaces/sofa';
 
 // components
 import Box from '../../Additional/Box';
@@ -33,12 +33,15 @@ const EditSofaConfiguration = ({ isVisible, closeCallback }: IProps) => {
   const getPricingByArticle = async () => {
     if (values.article.length) {
       try {
-        const { response }: any = await sofasAPI.getPricingByArticle(values.article);
-        if (response?.data?.type !== 'error') {
-          setFieldValue('configurations', response);
-          setConfigurations(response);
-        } else {
-          setNotificationData({ message: response.data.message, isOpen: true, type: 'success' });
+        const response: any = await sofasAPI.getPricingByArticle(values.article);
+
+        if (response) {
+          if (response?.data?.type !== 'error') {
+            setFieldValue('configurations', response);
+            setConfigurations(response);
+          } else {
+            setNotificationData({ message: response.data.message, isOpen: true, type: 'success' });
+          }
         }
       } catch (error: any) {
         setNotificationData({ message: error.response.data.message, isOpen: true, type: 'error' });

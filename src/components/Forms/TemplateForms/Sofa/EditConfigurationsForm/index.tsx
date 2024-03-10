@@ -1,7 +1,7 @@
 import React from 'react';
 
 // helpers
-import { SofaConfigurationModel } from '../../../../../interfaces/products';
+import { SofaConfigurationModel } from '../../../../../interfaces/sofa';
 import { EditSofaConfigurationsValidationSchema } from '../../../../../validation/configurations';
 
 // components

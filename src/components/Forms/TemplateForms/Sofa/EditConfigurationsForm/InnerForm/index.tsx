@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import { styled } from 'styled-components';
 import { FormValuesModel } from '..';
 import { FabricCategoriesEnum } from '../../../../../../constants/sofa';
-import { SofaConfigurationModel } from '../../../../../../interfaces/products';
+import { SofaConfigurationModel } from '../../../../../../interfaces/sofa';
 import { FieldArrayRenderProps, useFormikContext, FieldArray } from 'formik';
 
 // components
@@ -48,6 +48,7 @@ const InnerForm = ({ configurations }: IProps) => {
 
   useEffect(() => {
     setFieldValue('configurations', configurations);
+    console.log('1');
   }, [configurations]);
 
   return <FieldArray name='configurations' render={renderPricingForm} />;

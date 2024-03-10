@@ -24,7 +24,7 @@ interface ImageUploaderProps {
 const ImageUploader = ({
   name,
   btnText,
-  multiple = true,
+  multiple = false,
   disabled,
   className = '',
   customButton,

@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 // helpers
 import { theme } from '../../../../../assets/styles/theme/theme';
 import { styled } from 'styled-components';
 import { useFormikContext } from 'formik';
 import { FabricCategoriesEnum } from '../../../../../constants/sofa';
-import { SofaConfigurationModel } from '../../../../../interfaces/products';
+import { SofaConfigurationModel } from '../../../../../interfaces/sofa';
 
 // components
 import Box from '../../../../Additional/Box';
@@ -26,7 +26,7 @@ const Configuration = ({ readonly }: IProps) => {
   const { values }: any = useFormikContext();
 
   const sofaConfigurations = values.configurations.map((conf: any) => {
-    return { collapse: conf.collapse, pricing: conf.pricing.filter((priceObj: any) => priceObj.price !== '-') };
+    return { collapse: conf.collapse, pricing: conf.pricing.filter((priceObj: any) => priceObj.price !== '-' || priceObj.price !== '0') };
   });
 
   const [isModalOpen, setIsModelOpen] = useState(false);
@@ -38,7 +38,7 @@ const Configuration = ({ readonly }: IProps) => {
   });
 
   const fabricOptionsArray = Object.values(FabricCategoriesEnum);
-  const collapseOptionsArray = values.configurations.map((item: SofaConfigurationModel) => item.collapse);
+  const collapseOptionsArray = sofaConfigurations.map((item: SofaConfigurationModel) => item.collapse);
 
   const collapseSelectOptions = collapseOptionsArray.map((item: any) => {
     return {
@@ -48,21 +48,27 @@ const Configuration = ({ readonly }: IProps) => {
     };
   });
 
-  const fabricSelectOptions = () => {
-    const filteredConfigurations = values.configurations.map((conf: SofaConfigurationModel) =>
-      conf.pricing.filter(pricing => pricing.price !== 0),
-    );
+  const fabricSelectOptions = fabricOptionsArray.map((item: any) => {
+    return {
+      label: item,
+      value: item,
+      id: item,
+    };
+  });
 
-    return fabricOptionsArray.map(item => {
-      return {
-        label: item,
-        value: item,
-        id: item,
-      };
-    });
-  };
+  // const fabricSelectOptions = () => {
+  //   const filteredConfigurations = values.configurations.map((conf: SofaConfigurationModel) =>
+  //     conf.pricing.filter(pricing => pricing.price !== 0),
+  //   );
 
-  console.log(values.configurations);
+  //   return fabricOptionsArray.map(item => {
+  //     return {
+  //       label: item,
+  //       value: item,
+  //       id: item,
+  //     };
+  //   });
+  // };
 
   const handleChangeFabric = (fabric: string) => {
     const lastCollapse = currentConfiguration.collapse;
@@ -83,6 +89,23 @@ const Configuration = ({ readonly }: IProps) => {
 
     setCurrentConfiguration({ collapse: findedConfiguration.collapse, fabric: lastFabric, price: findedPricing.price });
   };
+
+  useEffect(() => {
+    if (values.configurations.lenght) {
+      const sofaConfigurations = values.configurations.map((conf: any) => {
+        return {
+          collapse: conf.collapse,
+          pricing: conf.pricing.filter((priceObj: any) => priceObj.price !== '-' || priceObj.price !== '0'),
+        };
+      });
+      console.log({ sofaConfigurations });
+      setCurrentConfiguration({
+        price: sofaConfigurations[0]?.pricing[0]?.price,
+        fabric: sofaConfigurations[0]?.pricing[0]?.fabric,
+        collapse: sofaConfigurations[0]?.collapse,
+      });
+    }
+  }, [values.configurations]);
 
   return (
     <ConfigurationBox>
@@ -110,7 +133,7 @@ const Configuration = ({ readonly }: IProps) => {
         <Text>Тканина:</Text>
         <Select
           placeholder='Тканина'
-          options={fabricSelectOptions()}
+          options={fabricSelectOptions}
           value={currentConfiguration.fabric}
           onChange={(e: any) => handleChangeFabric(e)}
         />

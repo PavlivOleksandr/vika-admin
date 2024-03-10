@@ -3,8 +3,8 @@ import React, { useEffect } from 'react';
 // helpers
 import { styled } from 'styled-components';
 import { FormValuesModel } from '..';
-import { KidsSizeEnum, SizeEnum } from '../../../../../../constants/mattresses';
-import { MattressConfigurationModel, MattressTypeEnum } from '../../../../../../interfaces/products';
+import { MattressConfigurationModel } from '../../../../../../interfaces/mattress';
+import { KidsSizeEnum, MattressTypeEnum, SizeEnum } from '../../../../../../constants/mattresses';
 import { FieldArrayRenderProps, useFormikContext, FieldArray } from 'formik';
 
 // components

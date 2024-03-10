@@ -19,17 +19,28 @@ interface IProps {
   thumbnail: string;
   isEditable: boolean;
   handleUploadImage: (file: RcFile) => Promise<void>;
+  handleRemoveImage: (imageUrl: string) => Promise<void>;
+  handleRemoveAvatar: () => void;
   handleUploadAvatar: (file: RcFile) => Promise<void>;
-  handleUpdateImages: (file: RcFile, index: number) => Promise<void>;
+  handleUpdateImages: (file: RcFile, imageUrl: string) => Promise<void>;
 }
 
-const Images = ({ thumbnail, isEditable, images, handleUploadImage, handleUploadAvatar, handleUpdateImages }: IProps) => {
+const Images = ({
+  thumbnail,
+  isEditable,
+  images,
+  handleUploadImage,
+  handleRemoveImage,
+  handleRemoveAvatar,
+  handleUploadAvatar,
+  handleUpdateImages,
+}: IProps) => {
   return (
     <Box direction='column'>
       <ImageBox>
         {isEditable && !!thumbnail?.length && (
           <StyledBox>
-            <RemoveBtn>
+            <RemoveBtn onClick={() => handleRemoveAvatar()}>
               <DeleteOutlined rev='' />
             </RemoveBtn>
             <ImageUploader
@@ -53,7 +64,7 @@ const Images = ({ thumbnail, isEditable, images, handleUploadImage, handleUpload
           <ImageBox key={index}>
             {isEditable && (
               <StyledBox>
-                <RemoveBtn>
+                <RemoveBtn onClick={() => handleRemoveImage(image)}>
                   <DeleteOutlined rev='' />
                 </RemoveBtn>
                 <ImageUploader
@@ -62,14 +73,14 @@ const Images = ({ thumbnail, isEditable, images, handleUploadImage, handleUpload
                       <EditOutlined rev='' />
                     </Button>
                   }
-                  uploadAction={file => handleUpdateImages(file, index)}
+                  uploadAction={file => handleUpdateImages(file, image)}
                 />
               </StyledBox>
             )}
             <Image width='100px' height='100px' preview={!isEditable} src={image} />
           </ImageBox>
         ))}
-        <ImagesUploader btnText={<Text>Додати фото</Text>} uploadAction={handleUploadImage} />
+        {isEditable && <ImagesUploader btnText={<Text>Додати фото</Text>} uploadAction={handleUploadImage} />}
       </Box>
     </Box>
   );

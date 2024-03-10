@@ -4,7 +4,7 @@ import React, { useMemo } from 'react';
 import { RoutesEnum } from '../../router/routes';
 import { useNavigate } from 'react-router-dom';
 import { mattressesAPI } from '../../api/mattresses/mattressesAPI';
-import { MattressTypeEnum } from '../../interfaces/products';
+import { MattressTypeEnum } from '../../constants/mattresses';
 
 // components
 import CreateMattressForm, { FormValuesModel } from '../../components/Forms/TemplateForms/Mattress/CreateMattressForm';
@@ -18,7 +18,7 @@ const NewMattressPage = () => {
       article: '',
       rating: null,
       type: MattressTypeEnum.ForAdults,
-      images: null,
+      images: [],
       thumbnail: null,
       filling: '',
       description: '',

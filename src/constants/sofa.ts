@@ -11,3 +11,11 @@ export enum FabricCategoriesEnum {
   Category9 = 'Категорія 9',
   Category10 = 'Категорія 10',
 }
+
+export enum SofaCategoryEnum {
+  Bed = 'Ліжко',
+  Chair = 'Крісло',
+  Corner = 'Кутовий диван',
+  ForKids = 'Дитячий',
+  Straight = 'Прямий диван',
+}

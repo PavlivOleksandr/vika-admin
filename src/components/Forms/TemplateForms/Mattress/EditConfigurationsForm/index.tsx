@@ -1,8 +1,9 @@
 import React from 'react';
 
 // helpers
+import { MattressTypeEnum } from '../../../../../constants/mattresses';
+import { MattressConfigurationModel } from '../../../../../interfaces/mattress';
 import { EditMattressConfigurationsValidationSchema } from '../../../../../validation/configurations';
-import { MattressConfigurationModel, MattressTypeEnum } from '../../../../../interfaces/products';
 
 // components
 import Form, { RequiredPropsForFormModel } from '../../../Form/index';

@@ -16,6 +16,7 @@ export interface FormValuesModel {
   filling: string;
   thumbnail?: any;
   description: string;
+  imagesToUpdate?: string[];
   configurations?: any;
   isHiddenForClients: boolean;
 }

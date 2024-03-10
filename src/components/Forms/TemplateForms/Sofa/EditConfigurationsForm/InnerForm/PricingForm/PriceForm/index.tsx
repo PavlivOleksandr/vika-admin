@@ -17,7 +17,7 @@ const PriceForm = ({ index, fieldName }: IProps) => {
   const { values } = useFormikContext<FormValuesModel>();
 
   const render = () => {
-    return values.configurations[index].pricing.map((price, priceIndex) => (
+    return values.configurations[index].pricing.map((price: { fabric?: string | null; price?: number | null }, priceIndex: number) => (
       <FormField key={price.fabric} name={`${fieldName}.pricing.${priceIndex}.price`} component={Input} />
     ));
   };

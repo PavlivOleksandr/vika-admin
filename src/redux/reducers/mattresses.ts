@@ -1,6 +1,6 @@
 import { ActionType } from '../actions/mattresses';
 import { IReduxAction } from '../../interfaces/redux';
-import { MattressModel, SimpleProductModel } from '../../interfaces/products';
+import { SimpleProductModel } from '../../interfaces/products';
 
 export interface StateModel {
   // mattress: MattressModel | null;

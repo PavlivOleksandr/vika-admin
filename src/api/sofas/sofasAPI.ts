@@ -1,6 +1,7 @@
 import { apiConfig } from '../../config/config';
+import { SofaModel } from '../../interfaces/sofa';
 import { APIService } from '../axiosInstance';
-import { SimpleProductModel, SofaModel } from '../../interfaces/products';
+import { SimpleProductModel } from '../../interfaces/products';
 
 const mainPath = 'sofas';
 
@@ -20,8 +21,17 @@ const sofasAPI = {
   uploadPriceList: (priceListFile: FormData) => {
     return APIService.post(`${apiConfig}/${mainPath}/prices`, priceListFile).then(({ data }) => data);
   },
-  update: (id: string, mattress: any) => {
-    return APIService.put<SofaModel>(`${apiConfig}/${mainPath}/${id}`, mattress).then(({ data }) => data);
+  uploadAvatar: (image: FormData) => {
+    return APIService.post(`${apiConfig}/${mainPath}/avatar`, image).then(({ data }) => data);
+  },
+  uploadImage: (image: FormData) => {
+    return APIService.post(`${apiConfig}/${mainPath}/image`, image).then(({ data }) => data);
+  },
+  updateImages: (newImage: FormData, imageUrl: string) => {
+    return APIService.patch(`${apiConfig}/${mainPath}/image`, newImage, { params: { imageUrl } }).then(({ data }) => data);
+  },
+  update: (id: string, sofa: any) => {
+    return APIService.patch<SofaModel>(`${apiConfig}/${mainPath}/${id}`, sofa).then(({ data }) => data);
   },
 
   delete: (id: string) => {

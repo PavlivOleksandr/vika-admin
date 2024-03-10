@@ -17,6 +17,7 @@ import Configuration from '../../Configuration';
 import ProductMainInfo from '../../../../../Additional/ProductMainInfo';
 import MattressTypeRadioGroup from '../../../../Component/Mattress/MattressTypeRadioGroup';
 import { useLocation } from 'react-router-dom';
+import { mattressesAPI } from '../../../../../../api/mattresses/mattressesAPI';
 
 interface IProps {
   isEditable: boolean;
@@ -27,21 +28,57 @@ const InnerForm = ({ isEditable, setIsEditable }: IProps) => {
   const { values, setFieldValue, isSubmitting, dirty } = useFormikContext<FormValuesModel>();
   const location = useLocation();
 
-  const handeChangeImage = async (newImage: any, indexOfImage: number) => {
+  const handeUpdateImages = async (newImage: any, imageUrl: string) => {
+    const formData = new FormData();
+    formData.append('photo', newImage);
+    formData.append('fileName', newImage.name);
+
+    const updatedImage = await mattressesAPI.updateImages(formData, imageUrl);
+
+    const imageToUpdateIndex = values.images.findIndex((image: string) => image === imageUrl);
+
     const newImages = values.images.map((image: string, index: number) => {
-      if (index === indexOfImage) {
-        return (image = newImage);
-      }
+      return index === imageToUpdateIndex ? updatedImage : image;
     });
 
     setFieldValue('images', newImages);
+    if (values.imagesToUpdate) {
+      setFieldValue('imagesToUpdate', [...values.imagesToUpdate, imageUrl]);
+    }
+  };
+
+  const handleUploadImage = async (image: RcFile) => {
+    const formData = new FormData();
+    formData.append('photo', image);
+    formData.append('fileName', image.name);
+
+    const imageUrl = await mattressesAPI.uploadImage(formData);
+    if (imageUrl) {
+      setFieldValue('images', [...values.images, imageUrl]);
+    }
   };
 
   const handleUploadAvatar = async (avatar: RcFile) => {
-    console.log(avatar);
+    const formData = new FormData();
+    formData.append('photo', avatar);
+    formData.append('fileName', avatar.name);
+
+    const avatarUrl = await mattressesAPI.uploadAvatar(formData);
+    if (avatarUrl) {
+      setFieldValue('thumbnail', avatarUrl);
+    }
   };
 
-  console.log(location);
+  const handleRemoveAvatar = async () => {
+    setFieldValue('thumbnail', '');
+  };
+
+  const handleRemoveImage = async (imageUrl: string) => {
+    setFieldValue(
+      'images',
+      values.images.filter((image: string) => image !== imageUrl),
+    );
+  };
 
   useEffect(() => {
     const unloadHandler = (event: any) => {
@@ -65,9 +102,11 @@ const InnerForm = ({ isEditable, setIsEditable }: IProps) => {
           isEditable={isEditable}
           thumbnail={values?.thumbnail as string}
           images={values?.images as string[]}
-          handleUpdateImages={(newImage, index) => handeChangeImage(newImage, index)}
+          handleUploadImage={handleUploadImage}
+          handleRemoveAvatar={handleRemoveAvatar}
           handleUploadAvatar={handleUploadAvatar}
-          handleUploadImage={handleUploadAvatar}
+          handleRemoveImage={imageUrl => handleRemoveImage(imageUrl)}
+          handleUpdateImages={(newImage, imageUrl) => handeUpdateImages(newImage, imageUrl)}
         />
         <RightFormSection>
           <ProductMainInfo article={values.article} createdAt={values.createdAt} updatedAt={values.updatedAt} />

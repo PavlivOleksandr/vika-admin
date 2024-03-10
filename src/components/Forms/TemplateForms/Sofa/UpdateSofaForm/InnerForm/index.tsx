@@ -3,6 +3,7 @@ import React from 'react';
 // helpers
 import { RcFile } from 'antd/es/upload';
 import { styled } from 'styled-components';
+import { sofasAPI } from '../../../../../../api/sofas/sofasAPI';
 import { FormValuesModel } from '..';
 import { useFormikContext } from 'formik';
 
@@ -27,18 +28,56 @@ interface IProps {
 const InnerForm = ({ isEditable, setIsEditable }: IProps) => {
   const { values, setFieldValue } = useFormikContext<FormValuesModel>();
 
-  const handeChangeImage = async (newImage: any, indexOfImage: number) => {
+  const handeUpdateImages = async (newImage: RcFile, imageUrl: string) => {
+    const formData = new FormData();
+    formData.append('photo', newImage);
+    formData.append('fileName', newImage.name);
+
+    const updatedImage = await sofasAPI.updateImages(formData, imageUrl);
+
+    const imageToUpdateIndex = values.images.findIndex((image: string) => image === imageUrl);
+
     const newImages = values.images.map((image: string, index: number) => {
-      if (index === indexOfImage) {
-        return (image = newImage);
-      }
+      return index === imageToUpdateIndex ? updatedImage : image;
     });
 
     setFieldValue('images', newImages);
+    if (values.imagesToUpdate) {
+      setFieldValue('imagesToUpdate', [...values.imagesToUpdate, imageUrl]);
+    }
+  };
+
+  const handleUploadImage = async (image: RcFile) => {
+    const formData = new FormData();
+    formData.append('photo', image);
+    formData.append('fileName', image.name);
+
+    const imageUrl = await sofasAPI.uploadImage(formData);
+    if (imageUrl) {
+      setFieldValue('images', [...values.images, imageUrl]);
+    }
   };
 
   const handleUploadAvatar = async (avatar: RcFile) => {
-    console.log(avatar);
+    const formData = new FormData();
+    formData.append('photo', avatar);
+    formData.append('fileName', avatar.name);
+
+    const avatarUrl = await sofasAPI.uploadAvatar(formData);
+    if (avatarUrl) {
+      setFieldValue('thumbnail', avatarUrl);
+    }
+  };
+
+  const handleRemoveAvatar = async () => {
+    setFieldValue('thumbnail', '');
+  };
+
+  const handleRemoveImage = async (imageUrl: string) => {
+    setFieldValue(
+      'images',
+      values.images.filter((image: string) => image !== imageUrl),
+    );
   };
 
   return (
@@ -46,12 +85,14 @@ const InnerForm = ({ isEditable, setIsEditable }: IProps) => {
       <Settings isEditable={isEditable} setIsEditable={setIsEditable} />
       <Box gap={40}>
         <Images
-          isEditable={isEditable}
-          thumbnail={values?.thumbnail as string}
           images={values?.images as string[]}
-          handleUpdateImages={(newImage, index) => handeChangeImage(newImage, index)}
+          thumbnail={values?.thumbnail as string}
+          isEditable={isEditable}
+          handleUploadImage={handleUploadImage}
+          handleRemoveAvatar={handleRemoveAvatar}
           handleUploadAvatar={handleUploadAvatar}
-          handleUploadImage={handleUploadAvatar}
+          handleRemoveImage={imageUrl => handleRemoveImage(imageUrl)}
+          handleUpdateImages={(newImage, index) => handeUpdateImages(newImage, index)}
         />
         <RightFormSection>
           <ProductMainInfo article={values.article} createdAt={values.createdAt} updatedAt={values.updatedAt} />
@@ -72,7 +113,7 @@ const InnerForm = ({ isEditable, setIsEditable }: IProps) => {
             placeholder={'Ніша для білизни'}
             component={Checkbox}
           />
-          <FormField label='Варіант' name='variant' component={SofaVariantRadiogroup} />
+          <FormField label='Варіант' name='variant' disabled={!isEditable} component={SofaVariantRadiogroup} />
           <CategorySelect disabled={!isEditable} />
           <FormField
             label='Опис'

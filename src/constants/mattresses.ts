@@ -11,3 +11,8 @@ export enum KidsSizeEnum {
   S = '60x120',
   L = '70x140',
 }
+
+export enum MattressTypeEnum {
+  ForKids = 'for children',
+  ForAdults = 'for adults',
+}

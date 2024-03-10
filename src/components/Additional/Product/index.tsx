@@ -21,7 +21,7 @@ const Product = ({ path, product }: ProductProps) => {
 
   return (
     <ProductBox>
-      <Image width='100%' height='105px' src={product.thumbnail} />
+      <StyledImage src={product.thumbnail} />
       <Box padding={theme.paddingM} justify='space-between'>
         <Text weight={600}>{product.name}</Text> <Text weight={500}>{product.article}</Text>
       </Box>
@@ -39,7 +39,6 @@ const ProductBox = styled(Box)`
   position: relative;
   flex-direction: column;
   justify-content: space-between;
-  background: ${({ theme }) => theme.gray3};
   cursor: pointer;
   &:hover {
     div {
@@ -48,6 +47,14 @@ const ProductBox = styled(Box)`
       justify-content: center;
       background-color: rgb(169 169 169 / 70%);
     }
+  }
+`;
+
+const StyledImage = styled(Image)`
+  width: 100%;
+  height: 105px;
+  img {
+    object-fit: contain !important;
   }
 `;
 

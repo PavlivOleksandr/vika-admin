@@ -1,11 +1,11 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 // helpers
 import styled from 'styled-components';
 import { useFetch } from '../../hooks/useFetch';
 import { RoutesEnum } from '../../router/routes';
 import { mattressesAPI } from '../../api/mattresses/mattressesAPI';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 // components
 import Box from '../../components/Additional/Box';
@@ -31,6 +31,7 @@ const MattressInfoPage = () => {
 
   const initialValues = useMemo<FormValuesModel>(() => {
     return {
+      _id: response?._id,
       type: response?.type,
       name: response?.name,
       images: response?.images || [],
@@ -43,6 +44,7 @@ const MattressInfoPage = () => {
       updatedAt: response?.updatedAt,
       thumbnail: response?.thumbnail || '',
       description: response?.description,
+      imagesToUpdate: [],
       configurations: response?.configurations,
       isHiddenForClients: response?.isHiddenForClients,
     };
@@ -58,7 +60,7 @@ const MattressInfoPage = () => {
         },
       });
     } else {
-      await mattressesAPI.update(response._id, { _id: response._id, thumbnail: values.thumbnail as string, ...values });
+      await mattressesAPI.update(response._id, { thumbnail: values.thumbnail as string, ...values });
       setNotificationData({ isOpen: true, message: `Інформацію успішно оновлено!` });
     }
     setIsEditable(false);

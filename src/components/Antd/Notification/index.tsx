@@ -68,4 +68,4 @@ const Notification = ({
   return contextHolder;
 };
 
-export default Notification;
+export default Notification as any;

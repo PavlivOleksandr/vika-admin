@@ -19,34 +19,77 @@ import MattressTypeRadioGroup from '../../../../Component/Mattress/MattressTypeR
 import EditMattressConfiguration from '../../../../../ModalDialogs/EditMattressConfiguration';
 
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
+import { mattressesAPI } from '../../../../../../api/mattresses/mattressesAPI';
 
 const InnerForm = () => {
   const { values, setFieldValue, errors } = useFormikContext<FormValuesModel>();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handeChangeImage = async (newImage: any, indexOfImage: number) => {
+  const handleUploadImage = async (image: RcFile) => {
+    const formData = new FormData();
+    formData.append('photo', image);
+    formData.append('fileName', image.name);
+
+    const imageUrl = await mattressesAPI.uploadImage(formData);
+    if (imageUrl) {
+      setFieldValue('images', [...values.images, imageUrl]);
+    }
+  };
+
+  const handeUpdateImages = async (newImage: RcFile, imageUrl: string) => {
+    const formData = new FormData();
+    formData.append('photo', newImage);
+    formData.append('fileName', newImage.name);
+
+    //TODO remove image url, remove imagesToUpdate
+    const updatedImage = await mattressesAPI.updateImages(formData, imageUrl);
+
+    const imageToUpdateIndex = values.images.findIndex((image: string) => image === imageUrl);
+
     const newImages = values.images.map((image: string, index: number) => {
-      if (index === indexOfImage) {
-        return (image = newImage);
-      }
+      return index === imageToUpdateIndex ? updatedImage : image;
     });
 
     setFieldValue('images', newImages);
+    if (values?.imagesToUpdate) {
+      setFieldValue('imagesToUpdate', [...values.imagesToUpdate, imageUrl]);
+    }
   };
 
   const handleUploadAvatar = async (avatar: RcFile) => {
-    console.log(avatar);
+    const formData = new FormData();
+    formData.append('photo', avatar);
+    formData.append('fileName', avatar.name);
+
+    const avatarUrl = await mattressesAPI.uploadAvatar(formData);
+    if (avatarUrl) {
+      setFieldValue('thumbnail', avatarUrl);
+    }
   };
+
+  const handleRemoveAvatar = async () => {
+    setFieldValue('thumbnail', '');
+  };
+
+  const handleRemoveImage = async (imageUrl: string) => {
+    setFieldValue(
+      'images',
+      values.images.filter((image: string) => image !== imageUrl),
+    );
+  };
+
   return (
     <Box gap={40}>
       <Images
         isEditable={true}
         thumbnail={values?.thumbnail as string}
         images={values?.images as string[]}
-        handleUpdateImages={(newImage, index) => handeChangeImage(newImage, index)}
+        handleUploadImage={handleUploadImage}
+        handleRemoveAvatar={handleRemoveAvatar}
         handleUploadAvatar={handleUploadAvatar}
-        handleUploadImage={handleUploadAvatar}
+        handleRemoveImage={imageUrl => handleRemoveImage(imageUrl)}
+        handleUpdateImages={(newImage, imageUrl) => handeUpdateImages(newImage, imageUrl)}
       />
       <Box width='50%' direction='column'>
         <HideBtn onClick={() => setFieldValue('isHiddenForClients', !values.isHiddenForClients ? true : false)}>

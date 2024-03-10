@@ -31,6 +31,7 @@ const SofaInfoPage = () => {
 
   const initialValues = useMemo<FormValuesModel>(() => {
     return {
+      _id: response?._id,
       name: response?.name,
       images: response?.images || [],
       rating: response?.rating,
@@ -38,13 +39,14 @@ const SofaInfoPage = () => {
       variant: response?.variant,
       toRemove: false,
       category: response?.category,
-      isLaundryStore: response?.isLaundryStore,
       createdAt: response?.createdAt,
       updatedAt: response?.updatedAt,
       thumbnail: response?.thumbnail || '',
       description: response?.description,
+      imagesToUpdate: [],
       configurations: response?.configurations,
       transformation: response?.transformation,
+      isLaundryStore: response?.isLaundryStore,
       isHiddenForClients: response?.isHiddenForClients,
     };
   }, [response]);
@@ -59,7 +61,7 @@ const SofaInfoPage = () => {
         },
       });
     } else {
-      await sofasAPI.update(response._id, { _id: response._id, thumbnail: values.thumbnail as string, ...values });
+      await sofasAPI.update(response._id, { thumbnail: values.thumbnail as string, ...values });
       setNotificationData({ isOpen: true, message: `Інформацію успішно оновлено!` });
     }
     setIsEditable(false);

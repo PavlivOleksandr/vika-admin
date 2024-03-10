@@ -4,7 +4,7 @@ import React, { useMemo } from 'react';
 import { sofasAPI } from '../../api/sofas/sofasAPI';
 import { RoutesEnum } from '../../router/routes';
 import { useNavigate } from 'react-router-dom';
-import { SofaCategoryEnum } from '../../interfaces/products';
+import { SofaCategoryEnum } from '../../constants/sofa';
 
 // components
 import CreateSofaForm, { FormValuesModel } from '../../components/Forms/TemplateForms/Sofa/CreateSofaForm';

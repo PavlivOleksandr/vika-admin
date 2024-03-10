@@ -6,9 +6,10 @@ import { UpdateMattressesValidationSchema } from '../../../../../validation/matt
 // components
 import Form, { RequiredPropsForFormModel } from '../../../Form/index';
 import InnerForm from './InnerForm';
-import { MattressConfigurationModel } from '../../../../../interfaces/products';
+import { MattressConfigurationModel } from '../../../../../interfaces/mattress';
 
 export interface FormValuesModel {
+  _id: string;
   name: string;
   type: any;
   rating: number;
@@ -20,6 +21,7 @@ export interface FormValuesModel {
   updatedAt: string;
   thumbnail?: string;
   description: string;
+  imagesToUpdate?: string[];
   configurations: MattressConfigurationModel[];
   isHiddenForClients: boolean;
 }
