@@ -43,7 +43,7 @@ const MattressesPage = () => {
   };
 
   const renderMattresses = useMemo(() => {
-    return mattresses.map((mattress: SimpleProductModel) => (
+    return mattresses?.map((mattress: SimpleProductModel) => (
       <Product key={mattress._id} product={mattress} path={`${RoutesEnum.Mattresses}/${mattress._id}`} />
     ));
   }, [searchValue, mattresses]);

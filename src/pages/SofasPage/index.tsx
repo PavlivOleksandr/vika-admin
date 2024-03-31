@@ -43,8 +43,8 @@ const SofasPage = () => {
   };
 
   const renderSofas = useMemo(() => {
-    if (sofas.length) {
-      return sofas.map((sofas: SimpleProductModel) => (
+    if (sofas?.length) {
+      return sofas?.map((sofas: SimpleProductModel) => (
         <Product key={sofas._id} product={sofas} path={`${RoutesEnum.Sofas}/${sofas._id}`} />
       ));
     }

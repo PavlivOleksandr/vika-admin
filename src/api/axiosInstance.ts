@@ -15,6 +15,8 @@ instance.interceptors.request.use(function (config: any) {
     throw new axios.Cancel('Operation canceled by the user.');
   }
 
+  config.headers['ngrok-skip-browser-warning'] = 'true';
+
   return config;
 });
 
